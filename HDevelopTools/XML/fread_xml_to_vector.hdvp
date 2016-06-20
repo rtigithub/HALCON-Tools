@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="fread_xml_to_vector">
+<interface>
+<ic>
+<par name="FileName" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="Elements" base_type="ctrl" dimension="2"/>
+</oc>
+</interface>
+<body>
+<l>file_exists (FileName, FileExists)</l>
+<l>if (FileExists)</l>
+<l>    TextSE := '[^&lt;&gt;]+'</l>
+<l>    S := '[ \\n\\t\\r]?'</l>
+<l>    NameStrt := '[A-Za-z]'</l>
+<l>    NameChar := '[A-Za-z0-9_:.-]'</l>
+<l>    Name := '(?:' + NameStrt + ')(?:' + NameChar + ')*'</l>
+<l>    ElementTagRE := '&lt;' + Name + '&gt;'</l>
+<l>    EndTagSE := '&lt;/'</l>
+<l>    EndTagRE := EndTagSE + Name + S + '&gt;+'</l>
+<l>    ElementValueRE := '&gt;(.*?)' + EndTagSE</l>
+<l>    open_file (FileName, 'input', FileHandle)</l>
+<l>    IsEof := false</l>
+<l>    Elements := {}</l>
+<l>    Elements.clear()</l>
+<l>    while (not(IsEof))</l>
+<l>        fread_line (FileHandle, XmlElement, IsEof)</l>
+<l>        if (IsEof)</l>
+<l>            break</l>
+<l>        endif</l>
+<l>        tuple_regexp_match (XmlElement, \
+                            '(?:(' + ElementTagRE + ')(.*)' + '(' + EndTagRE + '))|' + \
+                            '(' + ElementTagRE + ')|' + \
+                            '(' + EndTagRE + ')' \
+                            , Matches) </l>
+<l>        tuple_strlen (Matches, Length)</l>
+<l>        if (Length[3]&gt;0)</l>
+<l>            tuple_regexp_match (Matches[3], TextSE, ElementTag)</l>
+<l>            vector := {ElementTag, Matches[1]}</l>
+<l>            Elements.insert(Elements.length(),vector)            </l>
+<l>        elseif (Length[4]&gt;0)</l>
+<l>        elseif (Length[0]&gt;0)</l>
+<l>            tuple_regexp_match (Matches[0], TextSE, ElementTag)</l>
+<l>            vector := {ElementTag, Matches[1]}</l>
+<l>            Elements.insert(Elements.length(),vector)</l>
+<l>        endif</l>
+<l>    endwhile</l>
+<l>    close_file (FileHandle)</l>
+<l>else</l>
+<l>endif</l>
+<l>return ()</l>
+</body>
+<docu id="fread_xml_to_vector">
+<parameters>
+<parameter id="Elements"/>
+<parameter id="FileName"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

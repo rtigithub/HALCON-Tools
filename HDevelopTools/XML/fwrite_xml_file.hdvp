@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="fwrite_xml_file">
+<interface>
+<ic>
+<par name="OutputPath" base_type="ctrl" dimension="0"/>
+<par name="RootElement" base_type="ctrl" dimension="0"/>
+<par name="VectorResults" base_type="ctrl" dimension="2"/>
+</ic>
+</interface>
+<body>
+<l>tuple_strlen (OutputPath, pathLength)</l>
+<l>if (pathLength  &gt; 0)</l>
+<l>    BaseFile := OutputPath</l>
+<l>endif   </l>
+<c></c>
+<c>* Write to XML.   </c>
+<l>file_exists (OutputPath, FileExists)</l>
+<l>if (FileExists)</l>
+<l>    delete_file (OutputPath)</l>
+<l>endif</l>
+<l>open_file (OutputPath, 'output', FileHandle)</l>
+<l>try</l>
+<l>    fwrite_xml_prolog (FileHandle)</l>
+<l>    fwrite_xml_root (FileHandle, 'Data', VectorResults)</l>
+<c>    </c>
+<l>    close_file(FileHandle)</l>
+<c>    </c>
+<l>catch (Exception)</l>
+<l>    close_file(FileHandle)</l>
+<l>endtry</l>
+<l>return ()</l>
+</body>
+<docu id="fwrite_xml_file">
+<parameters>
+<parameter id="OutputPath"/>
+<parameter id="RootElement"/>
+<parameter id="VectorResults"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

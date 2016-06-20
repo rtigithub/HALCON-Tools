@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="main">
+<interface/>
+<body>
+<c>* Where do you want to save the data?</c>
+<l>tuple_environment ('USERPROFILE', UserProfile)</l>
+<c>* What file name and subfolder?</c>
+<l>FilePathAndName := UserProfile + '\\documents\\TestResults.xml'</l>
+<c>* What do you want the root element of the xml to be named?</c>
+<l>RootElement := 'Data'</l>
+<c>* Sample data arranged as {element name, value} vectors.</c>
+<l>Results := {{'AnIntegerValue', 1}, {'AStringValue','Second value'}, {'AFloatValue', 3.1415926}}</l>
+<c></c>
+<c>* Call method with full output path, root element name, and results as 2D vector.</c>
+<l>fwrite_xml_file (FilePathAndName, RootElement, Results)</l>
+<l>stop()</l>
+<c></c>
+<c>* This will populate the LoadedElements vector with any content from the xml file.</c>
+<l>fread_xml_to_vector (FilePathAndName, LoadedElements)</l>
+<c>* You need to explicitely query for the desired xml data</c>
+<l>get_vector_param_value (LoadedElements, 'AnIntegerValue', value)</l>
+<l>AnIntegerValue := value</l>
+<l>get_vector_param_value (LoadedElements, 'AFloatValue', value)</l>
+<l>AFloatValue := value</l>
+<l>get_vector_param_value (LoadedElements, 'AStringValue', value)</l>
+<l>AStringValue := value</l>
+<l>stop()</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

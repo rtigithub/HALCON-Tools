@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="get_vector_param_value">
+<interface>
+<ic>
+<par name="vector" base_type="ctrl" dimension="2"/>
+<par name="param" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="value" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>Names := []</l>
+<l>for i := 0 to vector.length()-1 by 1</l>
+<l>    Names := [Names, vector.at(i).at(0)]</l>
+<l>endfor</l>
+<l>value := []</l>
+<l>index := find(Names, param)</l>
+<l>if (index &lt;0)</l>
+<l>    value := -1</l>
+<l>    return()</l>
+<l>endif</l>
+<l>for valueCount := 0 to |index|-1 by 1</l>
+<l>    foundValue := vector.at(index[valueCount]).at(1)</l>
+<l>    if (is_number(foundValue))</l>
+<l>        tuple_number(foundValue, foundValue)</l>
+<l>    endif</l>
+<l>    value := [value, foundValue]</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="get_vector_param_value">
+<parameters>
+<parameter id="param"/>
+<parameter id="value"/>
+<parameter id="vector"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

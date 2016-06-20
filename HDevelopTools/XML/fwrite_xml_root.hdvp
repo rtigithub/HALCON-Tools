@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="12.0.2">
+<procedure name="fwrite_xml_root">
+<interface>
+<ic>
+<par name="FileHandle" base_type="ctrl" dimension="0"/>
+<par name="RootElement" base_type="ctrl" dimension="0"/>
+<par name="VectorResults" base_type="ctrl" dimension="2"/>
+</ic>
+</interface>
+<body>
+<l>fwrite_xml_tag (FileHandle, RootElement)</l>
+<l>fwrite_xml_elements (FileHandle, VectorResults)</l>
+<l>fwrite_xml_tag (FileHandle, '/'+RootElement)</l>
+<l>return ()</l>
+</body>
+<docu id="fwrite_xml_root">
+<parameters>
+<parameter id="FileHandle"/>
+<parameter id="RootElement"/>
+<parameter id="VectorResults"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
